@@ -1,0 +1,87 @@
+You have to use #forms for template driven forms
+
+#form is a form template variable. it normall refers to an HTMLTemplateElement
+
+#form="ngForm" is a special form template identifier. it binds form to an NgForm object. 
+
+We gain access to #form by using @ViewChild or passing variable to submit method.
+
+use onSubmit(form:NgForm) and <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+
+form.form.value => two keys
+
+form.form.value.email
+
+type of form.form is FormGroup
+
+touched:true
+
+form.controls.email: FormControl2
+form.controls.password: FormControl2
+
+FormControl2 has info:
+	status ("VALID"), touched, errors, value
+
+
+input directives:
+required becomes an angular directive
+
+also has an email directive
+
+minlength="6"
+maxlength
+
+pattern="" for regex
+
+min or max for numeric input
+
+adding directives does not tell angular to prevent form submission!
+
+Looking at form control:
+	marks the status:"INVALID"
+	errors:{required:true} change to invalid email -> email:true
+
+onSubmit:
+if(formData.form.invalid){
+      return;
+}
+
+===============243==========================
+
+changing template for invalid forms
+
+@if(form.form.invalid){
+     <p class="control-error">Invalid values detected</p>
+  }
+
+form.form.controls['email'].touched will give an error the first time it is rendered because it does not yet exist, the template only creates the structure
+
+use #password="ngModel" instead of form.form.controls['email'].touched 
+
+@if(form.form.controls['email'].touched && form.form.touched)
+
+@if(email.touched && password.touched && form.form.isInvalid)
+
+============244=============
+html classes ng-touched, ng-pristine, ng-invalid, ng-invalid
+
+====245/246=====
+
+formData.form.reset();
+-resets form values and the form state
+
+NgForm methods
+- make all fields dirty or pristine
+- dynamically remove validators
+
+Prepopulate on page refresh:
+
+1. access form data via:
+	private form = @ViewChild('form');
+
+2. setup subscription in constructor
+
+//246
+3. in constructor, get the data in local storage and set it to the form inputs
+
+
